@@ -298,13 +298,96 @@ int main() {
 } */
 
 
+
+
+
+/* #include <iostream>
+#include <set>
+using namespace std;
+
+int main() {
+    const set<string> menagerie = { "cat"s, "dog"s, "rat"s };
+    cout << menagerie.count("cat"s) << endl;
+    cout << count(menagerie.begin(), menagerie.end(), "cat"s) << endl;
+} */
+
+
+/* #include <iostream>
+#include <set>
+using namespace std;
+
+int main() {
+    const set<string> menagerie = { "cat"s, "dog"s, "rat"s };
+    cout << menagerie.count("cat"s) << '\n';
+    cout << count(menagerie.begin(), menagerie.end(), "cat"s) << '\n';
+} */
+
+
+/* #include <iostream>
+#include <set>
+#include <vector>
+#include <string>
+#include <algorithm>
+#include <chrono>
+#include <vector>
+using namespace std;
+const int SAMPLE_COUNT = 5;
+
+vector<int> CountNamesLong(const set<string>& storage, const vector<string>& candidates) {
+    vector<int> output;
+    for (auto& name : candidates) {
+        output.push_back(count(storage.begin(), storage.end(), name));
+    }
+    return output;
+}
+
+vector<int> CountNames(const set<string>& storage, const vector<string>& candidates) {
+    vector<int> output;
+    for (auto& name: candidates) {
+        if (storage.count(name)) output.push_back(1);
+        else output.push_back(1);
+    }
+    return output;
+}
+
+int main() {
+    set<string> s;
+    vector<string> v;
+    string stra = ""s;
+    string strb = ""s;
+
+    for (int j = 0; j < 10000; ++j) {
+        s.insert(stra);
+        stra += "a"s;
+        if (j % 2 == 0) {
+            v.push_back(strb);
+            strb += "b"s;
+        }
+        else {
+            v.push_back(stra);
+        }
+    }
+    //cout << "Testing slow version" << endl;
+    for (int i = 0; i < SAMPLE_COUNT; ++i) {
+        auto begin = chrono::steady_clock::now();
+        CountNames(s, v);
+        auto end = chrono::steady_clock::now();
+        cout << "Time difference Long = "s << chrono::duration_cast<chrono::microseconds>(end - begin).count() << "[µs]"s << endl;
+    }
+} */ 
+
+
+/* #include <algorithm>
 #include <iostream>
 #include <map>
 #include <set>
 #include <string>
+#include <utility>
 #include <vector>
+
 using namespace std;
-int MAX_RESULT_DOCUMENT_COUNT = 5;
+
+const int MAX_RESULT_DOCUMENT_COUNT = 5;
 
 string ReadLine() {
     string s;
@@ -363,7 +446,7 @@ void AddDocument(map<string, set<int>>& word_to_documents,
     }
 }
 
-// For each document returns its id and relevance
+// For each document returns its relevance and id
 vector<pair<int, int>> FindAllDocuments(
     const map<string, set<int>>& word_to_documents,
     const set<string>& stop_words,
@@ -381,9 +464,28 @@ vector<pair<int, int>> FindAllDocuments(
 
     vector<pair<int, int>> found_documents;
     for (auto [document_id, relevance] : document_to_relevance) {
-        found_documents.push_back({ document_id, relevance });
+        found_documents.push_back({ relevance, document_id });
     }
+
     return found_documents;
+}
+
+// For each document returns its id and relevance
+vector<pair<int, int>> FindTopDocuments(
+    const map<string, set<int>>& word_to_documents,
+    const set<string>& stop_words,
+    const string& query) {
+    auto matched_documents = FindAllDocuments(word_to_documents, stop_words, query);
+
+    sort(execution::par,matched_documents.begin(), matched_documents.end());
+    reverse(matched_documents.begin(), matched_documents.end());
+    if (matched_documents.size() > MAX_RESULT_DOCUMENT_COUNT) {
+        matched_documents.resize(MAX_RESULT_DOCUMENT_COUNT);
+    }
+    for (auto& matched_document : matched_documents) {
+        swap(matched_document.first, matched_document.second);
+    }
+    return matched_documents;
 }
 
 
@@ -402,6 +504,30 @@ int main() {
     for (auto [document_id, relevance] : FindTopDocuments(word_to_documents, stop_words, query)) {
         cout << "{ document_id = "s << document_id << ", relevance = "s << relevance << " }"s << endl;
     }
-}
+} */
+
+
+/* #include <iostream>
+#include <chrono> //эта библиотека отвечает за концепты, связанные со временем
+#include <vector>
+#include <numeric>
+#include <execution>
+using namespace std;
+
+int main(){
+    std::vector<int> v(200'000'001, 1);
+
+    const auto startTime = chrono::high_resolution_clock::now();
+    int result = std::accumulate(v.begin(), v.end(), 0);
+    const auto endTime = chrono::high_resolution_clock::now();
+    cout << "std::accumulate execution time: "s << chrono::duration_cast<chrono::duration<int, milli>>(endTime - startTime).count() << " ms."s << endl;
+
+    const auto startTimeReduce = chrono::high_resolution_clock::now();
+    int resultReduce = std::reduce(execution::par, v.begin(), v.end(), 0);
+    const auto endTimeReduce = chrono::high_resolution_clock::now();
+    cout << "std::reduce execution time: "s << chrono::duration_cast<chrono::duration<int, milli>>(endTimeReduce - startTimeReduce).count() << " ms."s << endl;
+} */
+
+
 
 
