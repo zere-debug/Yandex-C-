@@ -530,4 +530,169 @@ int main(){
 
 
 
+/* #include <iostream>
+#include <map>
+#include <string>
+#include <vector>
+using namespace std;
+
+template <typename Term>
+map<Term, int> ComputeTermFreqs(const vector<Term>& terms) {
+    map<Term, int> term_freqs;
+    for (const Term& term : terms) {
+        ++term_freqs[term];
+    }
+    return term_freqs;
+}
+
+pair<string, int> FindMaxFreqAnimal(const vector<pair<string, int>>& animals) {
+    // верните животного с максимальной частотой
+    int cnt = 0;
+    string name;
+    map<string, int> v;
+    for (const auto& it : animals) {
+        v[it.first]++;
+        if (v[it.first] > cnt) {
+            cnt = v[it.first];
+            name = it.first;
+        }
+    }
+    pair<string, int> ans;
+    for (const auto& it : animals) {
+        if (it.first == name) {
+            ans = it; break;
+        }
+    }
+    return ans;
+}
+
+int main() {
+    const vector<pair<string, int>> animals = {
+        {"Murka"s, 5},
+        {"Belka"s, 6},
+        {"Murka"s, 7},
+        {"Murka"s, 5},
+        {"Belka"s, 6},
+    };
+    const pair<string, int> max_freq_animal = FindMaxFreqAnimal(animals);
+    cout << max_freq_animal.first << " "s
+        << max_freq_animal.second << endl;
+} */ 
+
+/* #include <iostream>
+#include <vector>
+using namespace std;
+
+ostream& operator<<(ostream& out, const vector<string>& container) {
+    for (const string& element : container) {
+        out << element << " "s;
+    }
+    return out;
+}
+
+int main() {
+    const vector<string> cats = { "Мурка"s, "Белка"s, "Георгий"s, "Рюрик"s };
+    cout << cats << endl;
+} */ 
+
+
+/* #include <iostream>
+#include <vector>
+using namespace std;
+
+ostream& operator<<(ostream& out, const vector<string>& container) {
+    for (const string& element : container)
+        out << element << " "s;
+    return out;
+}
+
+int main() {
+    const vector<string> cats = { "Lucy", "Kate", "Puxus", "Flower" };
+    cout << cats << '\n';
+} */ 
+
+//Доработайте оператор вывода вектора в поток, чтобы он работал с любым вектором — при условии, 
+// что сами его элементы можно выводить оператором <<. 
+// Так, для вектора целых чисел код из тренажёра должен выводить 10 5 2 12 .
+
+/* #include <iostream>
+#include <vector>
+using namespace std;
+
+template<typename Element>
+ostream& operator<<(ostream& out, const vector<Element>& v) {
+    for (auto it : v)
+        out << it << " ";
+    return out;
+}
+
+int main() {
+    const vector<int> ages = { 10, 5, 2, 12 };
+    cout << ages << endl;
+} */
+
+// Вы могли заметить лишний пробел, который выводится после последнего элемента. 
+// Избавьтесь от него и замените пробел на запятую с пробелом. 
+// Код из предыдущей задачи теперь должен выводить 10, 5, 2, 12.
+
+/* #include <iostream>
+#include <vector>
+using namespace std;
+
+template<typename Element>
+ostream& operator<<(ostream& out, const vector<Element>& v) {
+    for (int i = 0; i < v.size(); i++) {
+        out << v[i];
+        if (i != v.size() - 1) out << ", ";
+    }
+    return out;
+}
+
+int main() {
+    const vector<int> ages = { 10, 5, 2, 12 };
+    cout << ages << endl;
+} */
+
+
+// Научите функцию вывода работать не только с векторами, но и со множествами.
+/* #include <iostream>
+#include <vector>
+#include <set>
+using namespace std;
+
+template<typename Element>
+ostream& operator<<(ostream& out, const vector<Element>& v) {
+    for (int i = 0; i < v.size(); i++) {
+        out << v[i];
+        if (i != v.size() - 1) out << ", ";
+    }
+    return out;
+}   
+
+template<typename Element>
+ostream& operator<<(ostream& out, set<Element>& s) {
+    for(auto it: s) 
+        out << s << " ";
+    return out;
+}
+
+int main() {
+    set<string> cats = { "Мурка"s, "Белка"s, "Георгий"s, "Рюрик"s };
+    cout << cats << endl;
+} */ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
