@@ -683,6 +683,169 @@ int main() {
 
 
 
+//Зададимся целью написать удобную обёртку для функции sort. 
+// Пусть она принимает контейнер и указание, по какой характеристике сортировать объекты. 
+/* #include <algorithm>
+#include <iostream>
+#include <vector>
+#include <string>
+using namespace std;
+
+struct Animal {
+    string name;
+    int age;
+    double weight;
+};
+
+template <typename Container, typename KeyMapper>
+void SortBy(Container& container, KeyMapper key_mapper) {
+    // теперь можно сортировать контейнер
+        // с компаратором key_mapper(lhs) < key_mapper(rhs)
+    sort(container.begin(), container.end(), key_mapper);
+} 
+
+void PrintNames(const vector<Animal>& animals) {
+    for (const Animal& animal : animals) {
+        cout << animal.name << ' ';
+    }
+    cout << endl;
+}
+
+int main() {
+    setlocale(LC_ALL, "Russian");
+    vector<Animal> animals = {
+        {"Мурка"s,   10, 5},
+        {"Белка"s,   5,  1.5},
+        {"Георгий"s, 2,  4.5},
+        {"Рюрик"s,   12, 3.1},
+    };
+
+    PrintNames(animals);
+
+    auto key_mapper = [&](const Animal& animal, const Animal& animal1) { return animal.name < animal1.name; };
+    SortBy(animals, key_mapper);
+    PrintNames(animals);
+
+    auto key_mapper1 = [&](const Animal& animal, const Animal& animal1) { return animal.weight > animal1.weight; };
+    SortBy(animals, key_mapper1);
+    PrintNames(animals);
+} */
+
+
+// Добавьте в функцию необязательный третий параметр reverse. 
+// Если туда будет передано true, объекты нужно отсортировать в обратном порядке.
+/* #include <algorithm>
+#include <iostream>
+#include <vector>
+#include <string>
+using namespace std;
+
+struct Animal {
+    string name;
+    int age;
+    double weight;
+};
+
+template <typename Container, typename KeyMapper>
+void SortBy(Container& container, KeyMapper key_mapper, bool x=false) {
+    // теперь можно сортировать контейнер
+        // с компаратором key_mapper(lhs) < key_mapper(rhs)
+    sort(container.begin(), container.end(), key_mapper);
+    if (x) {
+        int i = 0, j = (int)container.size()-1;
+        while (i <j) {
+            swap(container[i], container[j]);
+            i++; j--;
+        }
+    }
+}
+
+void PrintNames(const vector<Animal>& animals) {
+    for (const Animal& animal : animals) {
+        cout << animal.name << ' ';
+    }
+    cout << endl;
+}
+
+int main() {
+    setlocale(LC_ALL, "Russian");
+    vector<Animal> animals = {
+        {"Мурка"s,   10, 5},
+        {"Белка"s,   5,  1.5},
+        {"Георгий"s, 2,  4.5},
+        {"Рюрик"s,   12, 3.1},
+    };
+
+    PrintNames(animals);
+
+    auto key_mapper = [&](const Animal& animal, const Animal& animal1) { return animal.name < animal1.name; };
+    SortBy(animals,key_mapper, true);
+    PrintNames(animals);
+
+    auto key_mapper1 = [&](const Animal& animal, const Animal& animal1) { return animal.weight > animal1.weight; };
+    SortBy(animals, key_mapper1, false);
+    PrintNames(animals);
+
+    return 0;
+} */
+
+/* #include <iostream>
+#include <vector>
+#include <algorithm>
+#include <string>
+using namespace std;
+
+struct AnimalObservation {
+    string name;
+    int days_ago;
+    int health_level;  // состояние здоровья
+};
+
+template<typename Container>
+void Print(Container& v) {
+    for (auto& it : v)
+        cout << it.name << " ";
+    cout << '\n';
+}
+
+int main() {
+    setlocale(LC_ALL, "Russian");
+    vector<AnimalObservation> observations = { {"Мурка"s, 3, 1}, {"Рюрик"s, 1, 1}, {"Веня"s, 2, 1} };
+    sort(observations.begin(), observations.end(),[](const AnimalObservation& lhs, const AnimalObservation& rhs) {
+            return lhs.days_ago < rhs.days_ago || (lhs.days_ago == rhs.days_ago && lhs.health_level < rhs.health_level);
+        });
+    Print(observations);
+} */ 
+
+
+
+/* #include <iostream>
+#include <vector>
+#include <algorithm>
+#include <string>
+using namespace std;
+
+struct AnimalObservation {
+    string name;
+    int days_ago;
+    int health_level;
+};
+
+template<typename Container>
+void Print(Container& v) {
+    for (auto& i : v)
+        cout << i.name << " ";
+    cout << '\n';
+}
+
+int main() {
+    setlocale(LC_ALL, "Russian");
+    vector<AnimalObservation> observations = { {"Мурка"s, 3, 1}, {"Рюрик"s, 1, 1}, {"Веня"s, 2, 1} };
+    sort(observations.begin(), observations.end(), [](const AnimalObservation lhs, const AnimalObservation rhs) {
+        return lhs.days_ago < rhs.days_ago || (lhs.days_ago == rhs.days_ago && lhs.health_level < rhs.health_level); });
+    Print(observations);
+} */ 
+
 
 
 
